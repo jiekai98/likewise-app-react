@@ -26,8 +26,6 @@ import Profile from "./view/pages/Profile";
 
 //Hooks
 import { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 //Toast
 import 'react-toastify/dist/ReactToastify.css';
