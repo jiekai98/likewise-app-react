@@ -15,6 +15,7 @@ import { Navigate } from 'react-router-dom';
 
 import ChatMessage from '../components/ChatMessage';
 import SendMessage from '../components/SendMessage'
+import ChatRoomBar from '../components/ChatRoomBar';
 
 import { Paper } from '@mui/material';
 
@@ -38,6 +39,7 @@ const ChatRoom = () => {
 
   return (
     <div>
+      <ChatRoomBar/>
       ChatRoom
         <button onClick={()=>{navigate('/home/myrooms')}}>Back</button>
       <div style={{marginLeft:'25%',marginRight:'25%',alignItems:'center',alignContent:'center',display:'flex',flexDirection:'column'}}>
