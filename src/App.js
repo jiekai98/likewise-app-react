@@ -31,12 +31,14 @@ import { useEffect, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import userEvent from '@testing-library/user-event';
+import { Outlet ,Navigate} from 'react-router-dom';
 
 
 // Need to place the authentication functions in controller classes later on to decouple presentation and logic
 const App = () =>{
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user,setUser]=useState(null);
 
   let navigate=useNavigate();
 
@@ -49,6 +51,7 @@ const App = () =>{
           console.log(user.emailVerified);
           if (user.emailVerified){
             console.log(auth.currentUser);
+            setUser(user);
             navigate('/Home/ActivityRooms');
           }
           else{
@@ -109,17 +112,29 @@ const App = () =>{
               <Route path="Login" element={<Login setEmail={setEmail} setPassword={setPassword} handleAction={handleLogin}/>}/>
               <Route path="Register" element={<Register setEmail={setEmail} setPassword={setPassword} handleAction={handleRegister}/>}/>
             </Route>
-            <Route path="/Home" element={<Home />}>
-              <Route path="ActivityRooms" element={<ActivityRooms/>}/>
-              <Route path="EventRooms" element={<EventRooms/>}/>
-              <Route path="MyRooms" element={<MyRooms />}/>
-              <Route path="Profile" element={<Profile />}/>
+            <Route element={<ProtectedRoute user={user}/>}>
+              <Route path="/Home" element={<Home />}>
+                <Route path="ActivityRooms" element={<ActivityRooms/>}/>
+                <Route path="EventRooms" element={<EventRooms/>}/>
+                <Route path="MyRooms" element={<MyRooms />}/>
+                <Route path="Profile" element={<Profile />}/>
+              </Route>
+              <Route path="/ChatRoom" element={<ChatRoom/>}/>
             </Route>
-            <Route path="/ChatRoom" element={<ChatRoom/>}/>
             <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Routes>
       </div>
   );
+}
+
+const ProtectedRoute=({children, user})=>{
+  if (!user || !user.emailVerified){
+    console.log('What')
+    return <Navigate to={'/'} replace />;
+  }
+  else{
+    return (children)?children:<Outlet/>;
+  }
 }
 
 export default App;
