@@ -27,16 +27,16 @@ const ChatMessage = ({message,messageScroll}) => {
         {(uid===message.uid)?
         <div  style={{display:'flex',flexDirection:'row-reverse',alignItems:'flex-start',width:'100%'}}>
         <Box
-        sx={{ bgcolor:'secondary.main',display:'flex',boxShadow:10,
-        py:1,px:3,borderRadius:'20px',maxWidth:'400px',borderBottomRightRadius:'0'}}>
+        sx={{ bgcolor:'secondary.main',display:'flex',boxShadow:1,
+        py:1,px:3,borderRadius:'20px',maxWidth:'400px',borderBottomRightRadius:'0',marginBottom:1,marginTop:-2,mx:1}}>
             <Typography style={{color:'white', wordWrap: "break-word"}} >{theMessage}</Typography>
         </Box>
         </div>
         :
         <div  style={{display:'flex',flexDirection:'row',alignItems:'flex-start',width:'100%'}}>
         <Box
-        sx={{ bgcolor:'primary.main',display:'flex',boxShadow:10,
-        py:1,px:3,borderRadius:'20px',maxWidth:'400px',borderBottomLeftRadius:'0'}}>
+        sx={{ bgcolor:'primary.main',display:'flex',boxShadow:1,
+        py:1,px:3,borderRadius:'20px',maxWidth:'400px',borderBottomLeftRadius:'0',marginBottom:1,marginTop:-2,mx:1}}>
             <Typography style={{color:'white', wordWrap: "break-word"}} >{theMessage}</Typography>
         </Box>
         </div>
