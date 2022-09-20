@@ -12,19 +12,35 @@ const ActivityRooms = () => {
 
   
   return (
-    
-    <div>
-        <h1>ActivityRooms</h1>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+   
+    // <div>
+    //     <h1>ActivityRooms</h1>
+    //     <div style={{ display: "flex", flexWrap: "wrap" }}>
+    //     {activityList.map(activityObject=>(
+    //       <ActivityCard nameOfEvent= {activityObject.name} 
+    //       imageOfEvent = {activityObject.image}/>
+    //     ))}
+        
+        
+        
+    //     </div>
+    // </div>
+    <div >      
+      <h1 style={{marginLeft:"12px", marginTop:"12px"}}>ActivityRooms</h1>
+    <div className="container-fluid d-flex justify-content-center" style={{minWidth:1000,color:'orange',bgcolor:'orange'}}>
+      <div className="row">
         {activityList.map(activityObject=>(
+          <div className="col-md-auto">
           <ActivityCard nameOfEvent= {activityObject.name} 
-          imageOfEvent = {activityObject.image}/>
+            imageOfEvent = {activityObject.image}/>
+          </div>
         ))}
-        
-        
-        
-        </div>
+      </div>
     </div>
+    </div>
+
+  
+    
   )
 }
 
