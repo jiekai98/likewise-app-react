@@ -26,7 +26,6 @@ const SendMessage = ({scroll, messageScroll}) => {
     }
     }
 
-
   return (
     <form onSubmit={sendMessage} style={{width:'100%',top:'10%'}}>
     <TextField
@@ -37,12 +36,13 @@ const SendMessage = ({scroll, messageScroll}) => {
           value={value}
           onChange={(e)=>setValue(e.target.value)}
           margin="normal"
-          sx={{width:'80%'}}
+          sx={{minWidth:'90%',maxWidth:'90%',position:'relative',right:'10px',left:'10px'}}
+          onKeyDown
         />
     <Button 
     type='submit' 
     variant="contained" 
-    endIcon={<SendIcon sx={{fill:'white'}}/>} sx={{position:'relative',top:'20px',height:'45px',width:'75px',left:'10px'}}
+    endIcon={<SendIcon sx={{fill:'white'}}/>} sx={{position:'relative',top:'20px',height:'45px',width:'75px',left:'20px',right:'20px'}}
     >
         Send
       </Button>

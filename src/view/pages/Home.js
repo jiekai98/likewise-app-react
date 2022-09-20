@@ -21,7 +21,7 @@ import SideBar from '../components/SideBar'
     return(
       <div className="home">
         <SideBar />
-        <div className="content">
+        <div className="content" >
           <Outlet/>
         </div>
       </div>

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
 
-
+//Chatroom team needs to do usestate callback to get to unique room address
 const BasicCard = ({nameOfEvent,goToEvent}) =>{
   let navigate=useNavigate();
   return (
@@ -16,7 +16,7 @@ const BasicCard = ({nameOfEvent,goToEvent}) =>{
         <h1>{nameOfEvent}</h1>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>navigate('/ChatRoom')}>Go to</Button>
+        <Button size="small" onClick={()=>navigate('/Home/ChatRoom')}>Go to</Button>
       </CardActions>
     </Card>
   );

@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { auth } from '../../firebase-config'
 
 
-const ChatMessage = ({message}) => {
+const ChatMessage = ({message,messageScroll}) => {
   const [theMessage,setTheMessage]=useState(message.text)
   const uid=auth.currentUser.uid
 
   useEffect(()=>{//Implement soft hyphen for exceedingly long words (Delete if slow down is major)
     let messageSize=message.text.length
     let newMessage=message.text
+    messageScroll.current.scrollIntoView({behavior:'smooth'})
     for (let i=0;i<messageSize;i+=30){
       newMessage=newMessage.slice(0,i)+'\u00AD'+newMessage.slice(i);
       messageSize+='\u00AD'.length;

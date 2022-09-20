@@ -38,15 +38,14 @@ const ChatRoom = () => {
   },[])
 
   return (
-    <div>
+    <div style={{display:'flex',flexDirection:'column'}}>
       <ChatRoomBar/>
       ChatRoom
-        <button onClick={()=>{navigate('/home/myrooms')}}>Back</button>
-      <div style={{marginLeft:'25%',marginRight:'25%',alignItems:'center',alignContent:'center',display:'flex',flexDirection:'column'}}>
+      <div style={{width:'100%',display:'flex',flexDirection:'column',marginTop:'25px'}}>
         <Paper>
-        <Paper style={{width:'500px',height: '500px', overflow: 'auto'}}>
+        <Paper style={{width:'100%',height: '500px', overflow: 'auto'}}>
       {messages.map(message => (
-        <ChatMessage key={message.id} className='message' message={message}></ChatMessage>
+        <ChatMessage key={message.id} className='message' message={message} messageScroll={messageScroll}></ChatMessage>
       ))}
       <span ref={messageScroll}></span>
       </Paper>

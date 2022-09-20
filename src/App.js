@@ -118,8 +118,8 @@ const App = () =>{
                 <Route path="EventRooms" element={<EventRooms/>}/>
                 <Route path="MyRooms" element={<MyRooms />}/>
                 <Route path="Profile" element={<Profile />}/>
+                <Route path="ChatRoom" element={<ChatRoom/>}/>
               </Route>
-              <Route path="/ChatRoom" element={<ChatRoom/>}/>
             </Route>
             <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Routes>
