@@ -8,18 +8,27 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const BasicCard = ({nameOfEvent,goToEvent}) =>{
+const BasicCard = ({nameOfEvent,numOfEvents,goToEvent,imageOfEvent}) =>{
+
+  //jiekai try
+ 
   let navigate=useNavigate();
   return (
     <Card sx={{ minWidth: 50 }}>
       <CardContent>
+      <img style = {{width: 300, height:200}} src = {imageOfEvent} alt = ""/>
         <h1>{nameOfEvent}</h1>
+        <h2>{numOfEvents}</h2>
       </CardContent>
       <CardActions>
         <Button size="small" onClick={()=>navigate('/home/eventrooms')}>Go to</Button>
       </CardActions>
     </Card>
   );
+
+  
+
+  
 }
 
 export default BasicCard;
