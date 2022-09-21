@@ -14,11 +14,16 @@ import {query,collection,orderBy,onSnapshot} from 'firebase/firestore';
 import { Navigate } from 'react-router-dom';
 
 import ChatMessage from '../components/ChatMessage';
+import SendMessage from '../components/SendMessage'
+import ChatRoomBar from '../components/ChatRoomBar';
+
+import { Paper } from '@mui/material';
 
 const ChatRoom = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const scroll = useRef()
+  const messageScroll = useRef()
   const q = query(collection(db, 'messages'),orderBy('timestamp'))
   useEffect(()=>{
     const q = query(collection(db, 'messages'),orderBy('timestamp'))
@@ -33,13 +38,20 @@ const ChatRoom = () => {
   },[])
 
   return (
-    <div>
+    <div style={{display:'flex',flexDirection:'column'}}>
+      <ChatRoomBar/>
       ChatRoom
-        <button onClick={()=>{navigate('/home/myrooms')}}>Back</button>
-      <div>
+      <div style={{width:'100%',display:'flex',flexDirection:'column',marginTop:'25px'}}>
+        <Paper>
+        <Paper style={{width:'100%',height: '500px', overflow: 'auto'}}>
       {messages.map(message => (
-        <ChatMessage key={message.id} className='message' message={message.text}>{message.text}</ChatMessage>
+        <ChatMessage key={message.id} className='message' message={message} messageScroll={messageScroll}></ChatMessage>
       ))}
+      <span ref={messageScroll}></span>
+      </Paper>
+      <SendMessage scroll={scroll} messageScroll={messageScroll}/>
+      </Paper>
+      <span ref={scroll}></span>
       </div>
     </div>
   )
