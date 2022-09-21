@@ -7,19 +7,28 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
 
+const BasicCard = ({nameOfEvent,numOfEvents,goToEvent,imageOfEvent}) =>{
 
-const BasicCard = ({nameOfEvent,goToEvent}) =>{
+  //jiekai try
+ 
   let navigate=useNavigate();
   return (
-    <Card sx={{ minWidth: 50 }}>
+    <Card sx={{display:'flex',flexDirection:'column',width:300, ':hover':{boxShadow:'10'}, marginTop:6, marginLeft:"2px"}}>
+
       <CardContent>
+      <img style = {{width: 300, height:250, position: 'relative', px:0}} src = {imageOfEvent} alt = "" />
         <h1>{nameOfEvent}</h1>
+        <h2>{numOfEvents}</h2>
       </CardContent>
       <CardActions>
         <Button size="small" onClick={()=>navigate('/home/eventrooms')}>Go to</Button>
       </CardActions>
-    </Card>
+      </Card>
   );
+
+  
+
+  
 }
 
 export default BasicCard;
