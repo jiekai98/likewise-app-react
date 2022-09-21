@@ -34,11 +34,12 @@ import userEvent from '@testing-library/user-event';
 import { Outlet ,Navigate} from 'react-router-dom';
 
 
-// Need to place the authentication functions in controller classes later on to decouple presentation and logic
 const App = () =>{
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user,setUser]=useState(null);
+  const [eventRoom,setEventRoom]=useState('');
+  const [chatRoom,setChatRoom]=useState('');
 
   let navigate=useNavigate();
 
@@ -101,9 +102,6 @@ const App = () =>{
     })
   }
 
-  
-  
-
   return(
       <div className="App">
         <ToastContainer/>
@@ -114,11 +112,11 @@ const App = () =>{
             </Route>
             <Route element={<ProtectedRoute user={user}/>}>
               <Route path="/Home" element={<Home />}>
-                <Route path="ActivityRooms" element={<ActivityRooms/>}/>
-                <Route path="EventRooms" element={<EventRooms/>}/>
+                <Route path="ActivityRooms" element={<ActivityRooms setEventRoom={setEventRoom}/>}/>
+                <Route path="EventRooms" element={<EventRooms setChatRoom={setChatRoom} eventRoom={eventRoom} chatRoom={chatRoom}/>}/>
                 <Route path="MyRooms" element={<MyRooms />}/>
                 <Route path="Profile" element={<Profile />}/>
-                <Route path="ChatRoom" element={<ChatRoom/>}/>
+                <Route path="ChatRoom" element={<ChatRoom chatRoom={chatRoom}/>}/>
               </Route>
             </Route>
             <Route path="*" element={<p>There's nothing here: 404!</p>} />

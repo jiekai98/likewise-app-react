@@ -5,11 +5,11 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import {storage} from '../../firebase-config'
+import {ref,getDownloadURL} from 'firebase/storage'
 
+const BasicCard = ({nameOfEvent,numOfEvents,setEventRoom,imageOfEvent}) =>{
 
-const BasicCard = ({nameOfEvent,numOfEvents,goToEvent,imageOfEvent}) =>{
-
-  //jiekai try
  
   let navigate=useNavigate();
   return (
@@ -21,7 +21,7 @@ const BasicCard = ({nameOfEvent,numOfEvents,goToEvent,imageOfEvent}) =>{
         <h2>{numOfEvents}</h2>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>navigate('/home/eventrooms')}>Go to</Button>
+        <Button size="small" onClick={()=>{setEventRoom(nameOfEvent);navigate('/home/eventrooms')}}>Go to</Button>
       </CardActions>
       </Card>
   );

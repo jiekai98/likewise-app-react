@@ -19,14 +19,18 @@ import ChatRoomBar from '../components/ChatRoomBar';
 
 import { Paper } from '@mui/material';
 
-const ChatRoom = () => {
+const ChatRoom = ({chatRoom}) => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const scroll = useRef()
   const messageScroll = useRef()
-  const q = query(collection(db, 'messages'),orderBy('timestamp'))
   useEffect(()=>{
-    const q = query(collection(db, 'messages'),orderBy('timestamp'))
+    if (chatRoom===''){
+      console.log('wait for it')
+    }
+    else if(chatRoom!==''){
+    console.log(chatRoom)
+    const q = query(collection(db, chatRoom),orderBy('timestamp'))
     const unsubscribe = onSnapshot(q, (QuerySnapshot)=>{
       let messages=[]
       QuerySnapshot.forEach((doc)=>{
@@ -35,7 +39,7 @@ const ChatRoom = () => {
       console.log(messages);
       setMessages(messages);
     })
-  },[])
+   }},[chatRoom])
 
   return (
     <div style={{display:'flex',flexDirection:'column'}}>
@@ -49,7 +53,7 @@ const ChatRoom = () => {
       ))}
       <span ref={messageScroll}></span>
       </Paper>
-      <SendMessage scroll={scroll} messageScroll={messageScroll}/>
+      <SendMessage scroll={scroll} messageScroll={messageScroll} chatRoom={chatRoom}/>
       </Paper>
       <span ref={scroll}></span>
       </div>

@@ -7,15 +7,17 @@ import { async } from '@firebase/util';
 import {auth,db} from '../../firebase-config'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import IconButton from '@mui/material/IconButton';
+import { useEffect, useRef } from 'react';
 
-const SendMessage = ({scroll, messageScroll}) => {
+
+const SendMessage = ({scroll, messageScroll,chatRoom}) => {
     const [value, setValue] = useState('');
 
     const sendMessage = async(e)=>{
         e.preventDefault()
         const {uid,email} = auth.currentUser
         if (value!=''){
-        await addDoc(collection(db,'messages'),{
+        await addDoc(collection(db,chatRoom),{
             text: value,
             name: email,
             uid,
@@ -26,6 +28,23 @@ const SendMessage = ({scroll, messageScroll}) => {
         messageScroll.current.scrollIntoView({behavior:'smooth'})
     }
     }
+
+    useEffect(() => {
+      if (value===''){
+        console.log('wait')
+      }
+      else{
+      const listener = event => {
+        if (event.code === "Enter" || event.code === "NumpadEnter" ) {
+          console.log("Enter key was pressed. Run your function.");
+          sendMessage(event);
+        }
+      };
+      document.addEventListener("keydown", listener);
+      return () => {
+        document.removeEventListener("keydown", listener);
+      };
+    }}, [value]);
 
   return (
     <form onSubmit={sendMessage} style={{width:'100%',top:'10%'}}>
@@ -40,7 +59,6 @@ const SendMessage = ({scroll, messageScroll}) => {
           onChange={(e)=>setValue(e.target.value)}
           margin="normal"
           sx={{width:'400px',position:'relative',right:'10px',left:'10px'}}
-          onKeyDown
         />
       <IconButton
             size="large"
