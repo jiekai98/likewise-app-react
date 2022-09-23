@@ -1,6 +1,6 @@
 //firebase API
 import fireBase from './firebase-config'
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification,sendPasswordResetEmail} from 'firebase/auth'
 import 'firebase/auth'
 
 //Routing libs
@@ -78,7 +78,17 @@ const App = () =>{
     const auth = getAuth();
     console.log(email);
     console.log(password);
-    createUserWithEmailAndPassword(auth, email, password)
+    if(email.indexOf('@e.ntu.edu.sg') === -1) {
+      toast.error('Only NTU students are allowed to register');
+    }
+    else if (password.length < 8) {
+      toast.error('Password must be 8 characters or longer');
+    }
+    else if (/[a-zA-Z]/.test(password) === false) {
+      toast.error('Password must contain alphabets');
+    }
+    else {
+      createUserWithEmailAndPassword(auth, email, password)
     .then((response)=>
     {console.log(response);
       sendEmailVerification(auth.currentUser).then((value)=>{
@@ -100,6 +110,14 @@ const App = () =>{
         toast.error('Email already in use. Please try to login.');
       }
     })
+    }
+  }
+  const handlePasswordReset = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, email)
+    .then((response)=>
+    { toast('Password reset link sent');}).catch((error) => {
+      })
   }
 
   return(
@@ -107,7 +125,7 @@ const App = () =>{
         <ToastContainer/>
         <Routes>
             <Route path='/' element={<Onboard />}>
-              <Route path="Login" element={<Login setEmail={setEmail} setPassword={setPassword} handleAction={handleLogin}/>}/>
+              <Route path="Login" element={<Login setEmail={setEmail} setPassword={setPassword} handleAction={handleLogin} handleReset={handlePasswordReset}/>}/>
               <Route path="Register" element={<Register setEmail={setEmail} setPassword={setPassword} handleAction={handleRegister}/>}/>
             </Route>
             <Route element={<ProtectedRoute user={user}/>}>

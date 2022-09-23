@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
-const Login = ({setEmail, setPassword, handleAction}) => {
+const Login = ({setEmail, setPassword, handleAction, handleReset}) => {
   
   //Runs once after render
   useEffect(()=>{
@@ -25,6 +25,7 @@ const Login = ({setEmail, setPassword, handleAction}) => {
       <TextBox label="E-mail" onChange={setEmail}/>
       <TextBox label="Password" onChange={setPassword}/>
       <Button label="Confirm Login" style={{alignSelf:'center'}} handleAction={handleAction} />
+      <Button label="Reset password" style={{alignSelf:'center'}} handleAction={handleReset} />     
       </Stack>
     </div>
   )
