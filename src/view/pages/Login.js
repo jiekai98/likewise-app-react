@@ -1,8 +1,8 @@
-import TextBox from "../components/common/TextBox";
 import Button from "../components/common/Button";
 import Stack from '@mui/material/Stack';
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { TextField } from "@mui/material";
 
 const Login = ({setEmail, setPassword, handleAction, handleReset}) => {
   
@@ -20,10 +20,10 @@ const Login = ({setEmail, setPassword, handleAction, handleReset}) => {
       justifyContent: 'center',
       paddingTop: 0
     }} >
-      <Stack spacing={0}>
+      <Stack spacing={2}>
       <b style={{alignSelf:'center', fontSize:40}}>Login</b>
-      <TextBox label="E-mail" onChange={setEmail}/>
-      <TextBox label="Password" onChange={setPassword}/>
+      <TextField label="E-mail" onChange={e=>setEmail(e.target.value)}/>
+      <TextField label="Password" onChange={e=>setPassword(e.target.value)} type='password'/>
       <Button label="Confirm Login" style={{alignSelf:'center'}} handleAction={handleAction} />
       <Button label="Reset password" style={{alignSelf:'center'}} handleAction={handleReset} />     
       </Stack>

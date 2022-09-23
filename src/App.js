@@ -1,5 +1,5 @@
 //firebase API
-import fireBase from './firebase-config'
+import fireBase, { db } from './firebase-config'
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification,sendPasswordResetEmail} from 'firebase/auth'
 import 'firebase/auth'
 
@@ -33,15 +33,29 @@ import { ToastContainer, toast } from 'react-toastify';
 import userEvent from '@testing-library/user-event';
 import { Outlet ,Navigate} from 'react-router-dom';
 
+//adding Doc to firestore
+import { doc, setDoc } from "firebase/firestore"; 
 
 const App = () =>{
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [user,setUser]=useState(null);
+  
+  const [user,setUser]=useState('');
   const [eventRoom,setEventRoom]=useState('');
   const [chatRoom,setChatRoom]=useState('');
 
+  //login & registration 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const [imageUrl,setImageUrl]=useState("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png")
+  const [username,setUsername]=useState('')
+  const [gender,setGender]=useState('')
+  const [DOB,setDOB]=useState('')
+  const [course,setCourse]=useState('')
+  const [studyYear,setStudyYear]=useState('')
+
   let navigate=useNavigate();
+
+  
 
   
   const handleLogin = () =>{
@@ -74,10 +88,19 @@ const App = () =>{
           }
         })
   }
+
   const handleRegister = () => {
+    //Check for new field's existence and that there is no duplicate of username before creating.
+    //Add upload of profile photo
     const auth = getAuth();
+    console.log(imageUrl);
     console.log(email);
     console.log(password);
+    console.log(username);
+    console.log(gender);
+    console.log(DOB);
+    console.log(course);
+    console.log(studyYear);
     if(email.indexOf('@e.ntu.edu.sg') === -1) {
       toast.error('Only NTU students are allowed to register');
     }
@@ -90,7 +113,18 @@ const App = () =>{
     else {
       createUserWithEmailAndPassword(auth, email, password)
     .then((response)=>
-    {console.log(response);
+    {console.log('what');
+    console.log(response);
+
+      setDoc(doc(db,'users',auth.currentUser.email),{
+        imageUrl:imageUrl,
+        username:username,
+        gender:gender,
+        DOB:DOB,
+        course:course,
+        studyYear:studyYear,
+      })
+
       sendEmailVerification(auth.currentUser).then((value)=>{
         toast('Email sent');
         console.log(auth.currentUser.email);
@@ -120,13 +154,15 @@ const App = () =>{
       })
   }
 
+  
+
   return(
       <div className="App">
         <ToastContainer/>
         <Routes>
             <Route path='/' element={<Onboard />}>
               <Route path="Login" element={<Login setEmail={setEmail} setPassword={setPassword} handleAction={handleLogin} handleReset={handlePasswordReset}/>}/>
-              <Route path="Register" element={<Register setEmail={setEmail} setPassword={setPassword} handleAction={handleRegister}/>}/>
+              <Route path="Register" element={<Register setEmail={setEmail} email={email} setPassword={setPassword} handleAction={handleRegister} setUsername={setUsername} setImageUrl={setImageUrl} setGender={setGender} setDOB={setDOB} setCourse={setCourse} setStudyYear={setStudyYear} course={course} studyYear={studyYear} DOB={DOB} gender={gender}/>}/>
             </Route>
             <Route element={<ProtectedRoute user={user}/>}>
               <Route path="/Home" element={<Home />}>

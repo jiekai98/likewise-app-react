@@ -1,69 +1,101 @@
 import { getAuth } from 'firebase/auth'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { doc,getDoc } from 'firebase/firestore'
+import { auth } from '../../firebase-config'
+import { db } from '../../firebase-config'
+import { AirportShuttleTwoTone, NotListedLocation } from '@mui/icons-material'
 
 const Profile = () => {
+
+  //refer to registration for date picker/gender picker/year picker etc.
+  
+  let navigate = useNavigate();
+
+  //profile hashmap
+  const [profileInfo,setProfileInfo]=useState({
+    imageUrl:'',
+    username:'',
+    email:'',
+    password:'',
+    gender:'',
+    DOB:'',
+    course:'',
+    studyYear:''
+  })
+
+
+  const docRef = doc(db, "users", auth.currentUser.email);
+  useEffect(()=>{
+    getDoc(doc(db, "users", auth.currentUser.email)).then(docSnap => {
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        setProfileInfo({...docSnap.data(),email:auth.currentUser.email,password:'password123'})
+        console.log(docSnap.data().DOB.toString())
+      } else {
+        console.log("No such document!");
+      }
+    })
+  },[])
+
   const handleLogout = () => {
       const auth=getAuth();
       auth.signOut().then((value)=>{
         console.log(value)
-        console.log('what')
         navigate('/');
       },(reason)=>console.log(reason))
   }
-  let navigate = useNavigate();
+
   return (
     <div>
       <h1>Profile</h1>
 
       <section>
       <br></br>
-      <img src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" width={200} height={200}></img>
+      <img src={profileInfo.imageUrl} width={200} height={200}></img>
 
       </section>
       <br></br>
 
       <section>
        Username:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      nicholas
+      <p style={{minHeight:'25px',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
+      {profileInfo.username}
       </p></section>
 
       <section>
        Password:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      *********
-      </p></section>
+      <input value={profileInfo.password} readOnly={true} disabled={true} style={{minHeight:'100%',minWidth:'100%',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} type='password' >
+      </input></section>
 
       <section>
        School Email:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      nich0063@e.ntu.edu.sg
+      <p style={{minHeight:'25px',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
+      {profileInfo.email}
       </p></section>
 
       <section>
        Gender:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      male
+      <p style={{minHeight:'25px',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
+      {profileInfo.gender}
       </p></section>
 
       <section>
        Date of Birth:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      10/03/199
+      <p style={{minHeight:'25px',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
+      {profileInfo.DOB} 
       </p></section>
 
       <section>
        Course of study:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      BCG
+      <p style={{minHeight:'25px',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
+      {profileInfo.course}
       </p></section>
 
       <section>
        Year of study:
-      <p style={{backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
-      Year 3
+      <p style={{minHeight:'25px',backgroundColor: "white", border:"1px solid orange",borderRadius: '5px', borderRight : '300px'}} >
+      {profileInfo.studyYear}
       </p></section>
 
       <br></br>
