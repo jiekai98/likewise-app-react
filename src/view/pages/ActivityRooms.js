@@ -10,10 +10,12 @@ const ActivityRooms = ({setEventRoom}) => {
 
   useEffect(()=>{
     const q = query(collection(db, 'aRooms'),orderBy('cap','desc'))
+    let t=0
     const unsubscribe = onSnapshot(q, (QuerySnapshot)=>{
       let aRooms=[]
       QuerySnapshot.forEach((doc)=>{
-        aRooms.push({...doc.data(),id:doc.id})
+        aRooms.push({...doc.data(),id:doc.id,timer:t*500})
+        t+=0.25;
       })
       console.log(aRooms);
       setARooms(aRooms);
@@ -29,7 +31,7 @@ const ActivityRooms = ({setEventRoom}) => {
         {aRooms.map(activityObject=>(
           <div key={activityObject.id} className="col-md-auto">
           <ActivityCard key={activityObject.id} nameOfEvent= {activityObject.id} 
-            imageOfEvent = {activityObject.imageUrl} setEventRoom={setEventRoom}/>
+            imageOfEvent = {activityObject.imageUrl} setEventRoom={setEventRoom} timer={activityObject.timer}/>
           </div>
         ))}
       </div>

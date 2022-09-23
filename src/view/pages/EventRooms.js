@@ -1,9 +1,10 @@
 import React from 'react'
 import EventCard from '../components/EventCard'
-import {query,collection,orderBy,onSnapshot} from 'firebase/firestore';
+import {query,collection,orderBy,onSnapshot,doc,setDoc,addDoc, serverTimestamp} from 'firebase/firestore';
 import { db } from '../../firebase-config';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Button } from '@mui/material';
 const EventRooms = ({eventRoom,setChatRoom}) => {
   const [eRooms,setERooms]=useState([]);
 
@@ -23,10 +24,25 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
     })
   }},[eventRoom])
 
+  const createChatRoom=async({name='testRoom',cap=10,location='Singapore',pax=1,time=serverTimestamp()})=>{
+
+    //https://firebase.google.com/docs/firestore/manage-data/add-data
+    const docRef = await addDoc(collection(db, 'aRooms/'+eventRoom+'/eRooms'), {
+      name: name,
+      cap: cap,
+      pax: pax,
+      rem: cap-pax,
+      location:location,
+      time:time
+    });
+
+  }
+
   return (
     <div>
       <h1>
         EventRooms
+        <Button sx={{minWidth:'100px',minHeight:'100px'}} onClick={createChatRoom}>Hello</Button>
         {eRooms.map(eventObject=>(
           <div key={eventObject.id} className="col-md-auto">
           <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
