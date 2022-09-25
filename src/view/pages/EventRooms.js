@@ -5,8 +5,10 @@ import { db } from '../../firebase-config';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button } from '@mui/material';
+import EventRoomCreate from '../components/EventRoomCreate';
 const EventRooms = ({eventRoom,setChatRoom}) => {
   const [eRooms,setERooms]=useState([]);
+  const [openCreate,setOpenCreate]=useState(false);
 
   useEffect(()=>{
     if (eventRoom===''){
@@ -42,7 +44,8 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
     <div>
       <h1>
         EventRooms
-        <Button sx={{minWidth:'100px',minHeight:'100px'}} onClick={createChatRoom}>Hello</Button>
+        <Button sx={{minWidth:'100px',minHeight:'100px'}}>Hello</Button>
+        <EventRoomCreate openCreate={openCreate} setOpenCreate={setOpenCreate} createChatRoom={createChatRoom}/>
         {eRooms.map(eventObject=>(
           <div key={eventObject.id} className="col-md-auto">
           <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
