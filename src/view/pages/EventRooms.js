@@ -5,6 +5,10 @@ import { db } from '../../firebase-config';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button } from '@mui/material';
+
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
 const EventRooms = ({eventRoom,setChatRoom}) => {
   const [eRooms,setERooms]=useState([]);
 
@@ -38,18 +42,28 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
 
   }
 
+  //hardcoded, to be changed
+  const dateTime="29 Sep 2022";
+  const numOfJoiners=3;
+  const activityName="Swimming"
+
   return (
+    <menu>
     <div>
       <h1>
-        EventRooms
-        <Button sx={{minWidth:'100px',minHeight:'100px'}} onClick={createChatRoom}>Hello</Button>
+        Events for: {activityName}
+        <Fab size="small" color="primary" aria-label="add" sx={{marginTop:'4px', marginLeft:'4px'}}onClick={createChatRoom}>
+        <AddIcon />
+      </Fab>
+        <Button variant="contained" sx={{minWidth:'100px',minHeight:'10px', marginTop:'4px', marginLeft:'4px'}} onClick={createChatRoom}>New Event + </Button>
         {eRooms.map(eventObject=>(
           <div key={eventObject.id} className="col-md-auto">
-          <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
+          <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} dateTime={dateTime} numOfJoiners={numOfJoiners} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
           </div>
         ))}
       </h1>
     </div>
+    </menu>
   )
 }
 
