@@ -47,6 +47,7 @@ const Profile = () => {
   }
 
   return (
+    <menu>
     <div>
       <h1>Profile</h1>
 
@@ -103,6 +104,7 @@ const Profile = () => {
         <button onClick={()=>handleLogout()}>Logout</button>
       </div>
     </div>
+    </menu>
   )
 }
 
