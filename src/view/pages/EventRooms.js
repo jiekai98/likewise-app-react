@@ -6,11 +6,15 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button } from '@mui/material';
 
+
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
+import EventRoomCreate from '../components/EventRoomCreate';
+
 const EventRooms = ({eventRoom,setChatRoom}) => {
   const [eRooms,setERooms]=useState([]);
+  const [openCreate,setOpenCreate]=useState(false);
 
   useEffect(()=>{
     if (eventRoom===''){
@@ -51,11 +55,12 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
     <menu>
     <div>
       <h1>
+
         Events for: {activityName}
         <Fab size="small" color="primary" aria-label="add" sx={{marginTop:'4px', marginLeft:'4px'}}onClick={createChatRoom}>
         <AddIcon />
       </Fab>
-        <Button variant="contained" sx={{minWidth:'100px',minHeight:'10px', marginTop:'4px', marginLeft:'4px'}} onClick={createChatRoom}>New Event + </Button>
+        <EventRoomCreate openCreate={openCreate} setOpenCreate={setOpenCreate} createChatRoom={createChatRoom}/>
         {eRooms.map(eventObject=>(
           <div key={eventObject.id} className="col-md-auto">
           <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} dateTime={dateTime} numOfJoiners={numOfJoiners} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
