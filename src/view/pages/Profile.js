@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { doc,getDoc } from 'firebase/firestore'
 import { auth } from '../../firebase-config'
 import { db } from '../../firebase-config'
+import ProfilePic from '../components/ProfilePic'
 import { AirportShuttleTwoTone, NotListedLocation } from '@mui/icons-material'
 
 const Profile = () => {
@@ -52,11 +53,8 @@ const Profile = () => {
       <h1>Profile</h1>
 
       <section>
-      <br></br>
-      <img src={profileInfo.imageUrl} width={200} height={200}></img>
-
       </section>
-      <br></br>
+      <ProfilePic />
 
       <section>
        Username:
