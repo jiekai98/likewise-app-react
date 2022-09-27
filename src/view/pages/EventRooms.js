@@ -5,8 +5,16 @@ import { db } from '../../firebase-config';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button } from '@mui/material';
+
+
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
+import EventRoomCreate from '../components/EventRoomCreate';
+
 const EventRooms = ({eventRoom,setChatRoom}) => {
   const [eRooms,setERooms]=useState([]);
+  const [openCreate,setOpenCreate]=useState(false);
 
   useEffect(()=>{
     if (eventRoom===''){
@@ -24,6 +32,10 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
     })
   }},[eventRoom])
 
+  const handleClickOpen = () => {
+    setOpenCreate(true);
+  };
+
   const createChatRoom=async({name='testRoom',cap=10,location='Singapore',pax=1,time=serverTimestamp()})=>{
 
     //https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -38,18 +50,28 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
 
   }
 
+  //hardcoded, to be changed
+  const dateTime="29 Sep 2022";
+  const numOfJoiners=3;
+  const activityName="Swimming"
+
   return (
+    <menu>
     <div>
       <h1>
-        EventRooms
-        <Button sx={{minWidth:'100px',minHeight:'100px'}} onClick={createChatRoom}>Hello</Button>
+        Events for: {activityName}
+        <Fab size="small" color="primary" aria-label="add" sx={{marginTop:'4px', marginLeft:'4px'}} onClick={handleClickOpen}>
+        <AddIcon style={{fill:'white'}}/>
+      </Fab>
+        <EventRoomCreate openCreate={openCreate} setOpenCreate={setOpenCreate} createChatRoom={createChatRoom}/>
         {eRooms.map(eventObject=>(
           <div key={eventObject.id} className="col-md-auto">
-          <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
+          <EventCard key={eventObject.id} setChatRoom={setChatRoom} nameOfEvent={eventObject.name} dateTime={dateTime} numOfJoiners={numOfJoiners} chatRoomId={eventObject.id} thePath={'/aRooms/'+eventRoom+'/eRooms/'+eventObject.id+'/messages'} />
           </div>
         ))}
       </h1>
     </div>
+    </menu>
   )
 }
 
