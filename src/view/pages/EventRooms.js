@@ -32,6 +32,10 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
     })
   }},[eventRoom])
 
+  const handleClickOpen = () => {
+    setOpenCreate(true);
+  };
+
   const createChatRoom=async({name='testRoom',cap=10,location='Singapore',pax=1,time=serverTimestamp()})=>{
 
     //https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -55,10 +59,9 @@ const EventRooms = ({eventRoom,setChatRoom}) => {
     <menu>
     <div>
       <h1>
-
         Events for: {activityName}
-        <Fab size="small" color="primary" aria-label="add" sx={{marginTop:'4px', marginLeft:'4px'}}onClick={createChatRoom}>
-        <AddIcon />
+        <Fab size="small" color="primary" aria-label="add" sx={{marginTop:'4px', marginLeft:'4px'}} onClick={handleClickOpen}>
+        <AddIcon style={{fill:'white'}}/>
       </Fab>
         <EventRoomCreate openCreate={openCreate} setOpenCreate={setOpenCreate} createChatRoom={createChatRoom}/>
         {eRooms.map(eventObject=>(

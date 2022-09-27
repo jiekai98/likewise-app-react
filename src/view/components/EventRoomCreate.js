@@ -32,10 +32,6 @@ export default function EventRoomCreate({openCreate,setOpenCreate,createChatRoom
     const [location,setLocation]=useState('')
     const [dateTime,setDateTime]=useState({value:null,error:null})
 
-  const handleClickOpen = () => {
-    setOpenCreate(true);
-  };
-
   const handleClose = () => {
     setOpenCreate(false);
   };
@@ -64,9 +60,6 @@ export default function EventRoomCreate({openCreate,setOpenCreate,createChatRoom
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Create Room
-      </Button>
       <Dialog open={openCreate} onClose={handleClose}>
         
         <DialogTitle>Create Room</DialogTitle>
